@@ -26,9 +26,11 @@ namespace BoysAndGirls8
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            services.AddRazorPages();
             services.AddDbContext<BoysAndGirls8Context>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BoysAndGirls8Context")));
+            services.AddDbContext<BoysAndGirlsContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("BoysAndGirlsContextConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +52,7 @@ namespace BoysAndGirls8
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
@@ -70,6 +73,7 @@ namespace BoysAndGirls8
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
